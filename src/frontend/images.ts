@@ -2,19 +2,19 @@ let images:{id:string,src:string,suit:string,rank:string}[] = []
 
 for(let i = 0;i<52;i++){
     let suit:string = '';
-    let rank:string = ''
+    let rank:string = '';
     switch(i%4){
         case 0:
-            suit = "clubs"
+            suit = "hearts"
             break;
         case 1:
             suit = "diamonds"
             break;
         case 2:
-            suit = "hearts"
+            suit = "spades"
             break;
         default:
-        suit = "spades"
+        suit = "clubs"
         break;
     }
     switch(i%13){

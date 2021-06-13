@@ -8,6 +8,8 @@ class Player {
     private _gameID: number;
     private _serverID: number;
     private _hand: Card[];
+    private _bestCards: Card[];
+    private _handPower: number;
 
     constructor(name: string, stack: number, serverID: number) {
         this._name = name;
@@ -17,6 +19,8 @@ class Player {
         this._gameID = -1;
         this._serverID = serverID;
         this._hand = [];
+        this._bestCards = [];
+        this._handPower = -1;
     }
 
     public get name(): string {
@@ -75,7 +79,13 @@ class Player {
         this._hand = hand;
     }
 
+    public get bestCards(): Card[] {
+        return this._bestCards;
+    }
+
     public giveStartingCash() {
         this.stack += 1500;
     }
 }
+
+export default Player;
