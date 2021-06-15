@@ -1,4 +1,7 @@
 import Card from "./card"
+import Game from "./game"
+import Player from "./player"
+import Deck from "./deck"
 
 function Counter(array: Card[]) {
     var count: {[key: number]: number} = {};
@@ -6,6 +9,7 @@ function Counter(array: Card[]) {
     return count;
 }
 
+function makeBestHand(game: Game) {
 
-
+}
 export {}

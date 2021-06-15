@@ -3,9 +3,6 @@
  *  1 = diamonds
  *  2 = spades
  *  3 = clubs
- *  
- * 
- *  return {suit:string,rank:string}
  */
 
 class Card {
