@@ -83,6 +83,10 @@ class Player {
         return this._bestCards;
     }
 
+    public set bestCards(hand: Card[]) {
+        this._bestCards = hand; 
+    }
+
     public giveStartingCash() {
         this.stack += 1500;
     }

@@ -1,3 +1,6 @@
+
+
+
 .App {
   text-align: center;
 }
@@ -38,38 +41,152 @@
 }
 
 .card{
-  width: 75px;
+  width: 65px;
   float: left;
-  padding: 10px;
+  padding: 5px;
 }
 
 .player-name{
   padding: 0px;
   margin: 0px;
+  font-size: 10px;
+  float: left;
 }
 
 .player-money{
   padding: 0px;
   margin: 0px;
   border: 0px;
+  font-size: 15px;
+  float:left;
 }
 
 .player-box{
-  
+background-color: rgb(27, 50, 23);
+display: flex;
+flex-direction: column;
+align-items: center;
+border-style: solid;
+border-width: 1px;
+border-color: lightslategrey;
+border-radius: 10px;
 }
 
 .player-profile-picture{
   width: 50px;
   height: 50px;
-  float:left;
-}
+  filter: invert()
+  }
 
 .player-info{
-  float:left;
-  margin:auto;
+  display: flex;
+  flex-direction: column;
+  
 }
-.player-box{
-  width:100px
+.player-profile-box{
+  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width:120px;
+  
 
 
+}
+
+.player-cards{
+  display: flex;
+  flex-direction: row;
+}
+
+#table{
+  height: 600px;
+  width: 80%;
+  border-radius: 30em;
+  border-style: solid;
+  
+  
+}
+
+
+.player-left{
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left:5%;
+
+  
+}
+.player-top-left{
+  position:absolute;
+  top:5%;
+  left:15%;
+}
+.player-bottom-left{
+  position:absolute;
+  bottom:5%;
+  left:15%;
+}
+
+.player-center-left{
+  position: absolute;
+  top:0;
+  left:40%;
+  transform: translateX(-40%);
+}
+
+.player-center-right{
+position: absolute;
+top:0;
+  right:40%;
+  transform: translateX(40%);
+}
+
+.player-top-right{
+  position:absolute;
+  top:5%;
+  right:15%;
+}
+
+.player-right{
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right:5%;
+}
+
+.player-bottom-right{
+  position:absolute;
+  bottom:5%;
+  right:15%;
+}
+
+.player-bottom{
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  align-items: center;
+  bottom:0;
+  left:50%;
+  transform: translateX(-50%);
+}
+
+.player-button{
+  color:rgb(255, 255, 255);
+  background-color: rgb(243, 31, 31);
+
+  border-radius: 2px;
+  
+  width:120px;
+  height:40px;
+  margin: 5px;
+  border-width: 1px;
+  border-style: solid;
+border-color: lightslategrey;
+font-size: 24px;
+font-weight: bolder;
+}
+
+.player-button:active{
+  background-color: rgb(147, 33, 33);
 }

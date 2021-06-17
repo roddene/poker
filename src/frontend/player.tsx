@@ -42,14 +42,12 @@ class Player extends React.Component<MyProps>{
     render(){
         return (
           <div className = "player-box">
-              <div>
-                  {this.amountBet}$
-              </div>
-              <div>
+
+              <div className = "player-cards">
               <Card rank = {this.cards[0].rank} suit = {this.cards[0].suit} shown = {this.cards[0].shown}></Card>
               <Card rank = {this.cards[1].rank} suit = {this.cards[1].suit} shown = {this.cards[1].shown}></Card>
               </div>
-              <div className = "player-box">
+              <div className = "player-profile-box">
               <img className = "player-profile-picture" src = './blank-user.svg' alt = "failed to load"></img>
               <div className = "player-info">
                 <p className = "player-name">{this.name}</p>
