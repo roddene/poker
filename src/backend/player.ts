@@ -10,6 +10,7 @@ class Player {
     private _hand: Card[];
     private _bestCards: Card[];
     private _handPower: number;
+    private _fullHand: Card[];
 
     constructor(name: string, stack: number, serverID: number) {
         this._name = name;
@@ -19,6 +20,7 @@ class Player {
         this._gameID = -1;
         this._serverID = serverID;
         this._hand = [];
+        this._fullHand = [];
         this._bestCards = [];
         this._handPower = -1;
     }
@@ -87,8 +89,25 @@ class Player {
         this._bestCards = hand; 
     }
 
+    public get handPower(): number {
+        return this._handPower;
+    }
+
+    public set handPower(hp: number) {
+        this._handPower = hp;
+    }
+
     public giveStartingCash() {
         this.stack += 1500;
+    }
+    public get fullHand(): Card[] {
+        return this._fullHand;
+    }
+    public updateFullHand(table: Card[]) {
+        this._fullHand = this._hand;
+        table.forEach(card => {
+            this._fullHand.push(card);
+        });
     }
 }
 

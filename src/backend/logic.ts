@@ -59,7 +59,6 @@ function duplicates(hand: Card[]): Card[][] {
     let pairs: Card[] = [];
     let trips: Card[] = [];
     let quads: Card[] = [];
-    console.log(cardCounts);
     Object.keys(cardCounts).forEach(key => {
         let count = cardCounts[parseInt(key)];
         if (count != 1) {
@@ -77,11 +76,13 @@ function duplicates(hand: Card[]): Card[][] {
             }
         }   
     });
+    pairs.sort((a, b) => b.rank - a.rank);
+    trips.sort((a, b) => b.rank - a.rank);
     return [pairs, trips, quads];
 }
 
 function straightCheck(player: Player): boolean {
-    let temp: Card[] = aceStraightHigh(player.hand);
+    let temp: Card[] = aceStraightHigh(player.fullHand);
     let strHand: Card[] = noDuplicates(temp);
     strHand.sort(compare);
     let i: number = 0;
@@ -103,7 +104,7 @@ function straightCheck(player: Player): boolean {
 function flushCheck(player: Player): boolean {
     let flush: boolean = false;
     let fSuit: number = -1;
-    let counts: {[key: number]: number} = suitCounter(player.hand);
+    let counts: {[key: number]: number} = suitCounter(player.fullHand);
     Object.keys(counts).forEach(key => {
         let suit:number = parseInt(key);
         let count: number = counts[suit];
@@ -113,7 +114,7 @@ function flushCheck(player: Player): boolean {
         }
     });
     if (flush) {
-        let flushCards: Card[] = [...player.hand];
+        let flushCards: Card[] = [...player.fullHand];
         let bestCards: Card[] = [];
         flushCards.sort((a, b) => b.rank - a.rank);
         let i: number = 0;
@@ -127,11 +128,148 @@ function flushCheck(player: Player): boolean {
     }
     return flush; 
 }
- 
-function makeBestHand(player: Player) {
-    let temp: number;
-    let dups: Card[][] = duplicates(player.hand);
 
+function fullHouseCheck(duplicates: Card[][], player: Player): boolean {
+    let fullHouse: boolean = false;
+    if (duplicates[0].length > 0 && duplicates[1].length > 0) {
+        fullHouse = true;
+    } else if (duplicates[1].length > 1) {
+        fullHouse = true;
+    }
+    if (fullHouse) {
+        let fullHouseCards: Card[] = [];
+        if (duplicates[1].length == 1) {
+            for(let i = 0; i < 5; i++) {
+                if (i < 3) {
+                    fullHouseCards.push(duplicates[1][0]);
+                } else {
+                    fullHouseCards.push(duplicates[0][0]);
+                }
+            }
+        } else {
+            for(let i = 0; i < 5; i++) {
+                if (i < 3) {
+                    fullHouseCards.push(duplicates[1][1]);
+                } else {
+                    fullHouseCards.push(duplicates[1][0]);
+                }
+            }
+        }
+        player.bestCards = fullHouseCards;
+    }
+    return fullHouse;
 }
 
-export {}
+function straightFlushCheck(player: Player): boolean {
+    let flush: boolean = false;
+    let straight: boolean = false;
+    let fSuit: number = -1;
+    let counts: {[key: number]: number} = suitCounter(player.fullHand);
+    Object.keys(counts).forEach(key => {
+        let suit:number = parseInt(key);
+        let count: number = counts[suit];
+        if (count >= 5) {
+            flush = true;
+            fSuit = suit;
+        }
+    });
+    if (flush) {
+        let flushCards: Card[] = [...player.fullHand];
+        let bestCards: Card[] = [];
+        flushCards.sort((a, b) => b.rank - a.rank);
+        let i: number = 0;
+        flushCards.forEach(card => {
+             if (card.suit == fSuit && i < 5) {
+                bestCards[bestCards.length] = card;
+                i++;
+            }
+        });
+        let temp: Card[] = aceStraightHigh(bestCards);
+        let strHand: Card[] = noDuplicates(temp);
+        strHand.sort(compare);
+        let j: number = 0;
+        while(i <= strHand.length - 5) {
+            for(let x = j; x < j + 4; x++) {
+                if(strHand[x].rank != strHand[x+1].rank + 1) {
+                    break;
+                }
+                if (x == i + 3) {
+                    straight = true;
+                    player.bestCards = strHand.slice(x, x + 5);
+                }
+            }
+        }
+    }
+    return flush && straight;
+}
+
+function highCards(player: Player) {
+    let inHand: boolean = false;
+    let cardsInHand: number = player.bestCards.length;
+    player.fullHand.forEach(card => {
+        player.bestCards.forEach(c => {
+            if (c.rank == card.rank) {
+                inHand == true;
+            }
+        });
+        if (!inHand && cardsInHand < 5) {
+            player.bestCards.push(card);
+            cardsInHand ++;
+        }
+        inHand = false;
+    });
+}
+
+function getDupHand(duplicates: Card[][], player: Player) {
+    if (duplicates[2].length > 0) {
+        for (let i = 0; i < 4; i++) {
+            player.bestCards.push(duplicates[2][0]);
+        }
+        highCards(player);
+    } else if (duplicates[1].length > 0) {
+        for (let i = 0; i < 3; i++) {
+            player.bestCards.push(duplicates[1][0]);
+        }
+        highCards(player);
+    } else if (duplicates[0].length > 1) {
+        for (let i = 0; i < 4; i++) {
+            if (i < 2) {
+                player.bestCards.push(duplicates[0][0]);
+            } else {
+                player.bestCards.push(duplicates[0][1]);
+            }
+        }
+    }
+}
+
+function makeBestHand(player: Player) {
+    let temp: number;
+    let dups: Card[][] = duplicates(player.fullHand);
+    let power: number = -1;
+    if (straightFlushCheck(player)) {
+        player.handPower = 8;
+    } else if (dups[2].length > 0) {
+        getDupHand(dups, player);
+        player.handPower = 7;
+    } else if (fullHouseCheck(dups, player)) {
+        player.handPower = 6;
+    } else if (flushCheck(player)) {
+        player.handPower = 5;
+    } else if (straightCheck(player)) {
+        player.handPower = 4;
+    } else if (dups[1].length > 0) {
+        getDupHand(dups, player);
+        player.handPower = 3;
+    } else if (dups[0].length > 1) {
+        getDupHand(dups, player);
+        player.handPower = 2;
+    } else if (dups[0].length > 0) {
+        getDupHand(dups, player);
+        player.handPower = 1;
+    } else {
+        highCards(player);
+        player.handPower = 0;
+    }
+}
+
+export {makeBestHand}

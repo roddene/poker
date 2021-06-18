@@ -1,5 +1,5 @@
 import React from 'react'
-//import Card from './card';
+import Pot from './pot'
 import Player from './player'
 
 type MyProps = {
