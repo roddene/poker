@@ -190,3 +190,20 @@ font-weight: bolder;
 .player-button:active{
   background-color: rgb(147, 33, 33);
 }
+
+.pot{
+  position:absolute;
+  left:50%;
+  transform: translateX(-50%);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chip{
+  width:100px;
+  height:100px;
+
+}
+
+@import url("https://fonts.googleapis.com/css?family=Staatliches:400,400i,700,700i");
+    

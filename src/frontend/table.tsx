@@ -19,6 +19,10 @@ class Table extends React.Component<MyProps>{
     render(){
         return (
           <div id = "table">
+              <div className = "pot">
+            <Pot></Pot>
+            </div>
+
               <div className = "player-left">
               <Player cards = {[{rank:"2",suit:"hearts",shown:true},{rank:"7",suit:"clubs",shown:true}]} position = {1} name = "name" playerid = {534543253} money={100.00} folded = {false}
         amountBet = {20.00} blind = {"little"}> </Player>

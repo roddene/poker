@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Chip from './chip'
 type MyProps = {
 
 }
@@ -16,7 +16,8 @@ class Pot extends React.Component<MyProps>{
     render(){
         return (
           <React.Fragment>
-            Pot
+            <Chip value = {5}></Chip>
+            <Chip value = {25}></Chip>
               </React.Fragment>
       )}
 

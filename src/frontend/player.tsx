@@ -50,7 +50,7 @@ class Player extends React.Component<MyProps>{
               <div className = "player-profile-box">
               <img className = "player-profile-picture" src = './blank-user.svg' alt = "failed to load"></img>
               <div className = "player-info">
-                <p className = "player-name">{this.name}</p>
+                <p className = "player-name" >{this.name}</p>
                 <p className = "player-money">{this.money}$</p>
                 </div>
                 </div>
